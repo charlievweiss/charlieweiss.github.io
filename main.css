@@ -3,7 +3,7 @@
 	position: fixed;
 	width: 97.5%;
 	margin-top: -20px;
-	height: 20em;
+	height: 200px;
 	background-color: #fbb117;
 	margin-bottom: 10px;
 }
@@ -12,7 +12,7 @@
 	float:center;
 	margin-left: 5px;
 	padding-top: 5px;
-	font-size: 90em;
+	font-size: 30px;
 	font-family: Impact, cursive;
 	color: #000000;
 }
