@@ -3,34 +3,35 @@
 <head>
   <!-- image overlay-->
   <style>
-    .main-img{
-      width:25vw;
+    .main-img{/*since the three images are the same*/
+      width:22%;
       position:relative;
       top:0;
       left:0;
-    }
-    .main-hover{
-      width:25vw;
-      opacity:0;
-      position:absolute;
-      top:12vh;
-      left:0vw;
       z-index:1;
     }
-    .main-hover:hover{
+    .div-hover{/*div for hovering*/
       opacity:1;
+      position:relative;
     }
-    .main-hover-text{
-      position:absolute;
-      top:14.5vh;
-      opacity:0;
+    .div-hover.text{/*hover text*/
       text-align:center;
-      width:25vw;
+      width:22%;
+      margin-top:2vh;
+      position:absolute;
+      z-index:3;
+      font-size:2vh;
+    }
+    .div-hover.image{/*hover image*/
+      position:absolute;
+      width:22%;
       z-index:2;
     }
-    .main-hover-text:hover{
+    .div-hover:hover{/*the aforementioned hovering*/
       opacity:1;
     }
+    
+
   </style>
   <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -70,22 +71,24 @@
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div class="container">
-    <div class="row" style="margin-top:30vh">
+    <div class="row" style="margin-top:20vh">
       <div class="one-third column">
-        <center><img src="images/charlie_crayon.png" class="main-img">
-        <img src="images/yellow_streak.png" style="width:25vw" class="main-hover">
-        <h6 class="main-hover-text">about me</h6></center>
+        <img src="images/charlie_crayon.png" class="main-img">
+        <div class="div-hover">
+          <img src="images/yellow_streak.png" class="div-hover image">
+          <h6 class="div-hover text">about me</h6>
+        </div>
       </div>
       <div class="one-third column">
-        <img src="images/safety_glasses.png" style="width:25vw; margin-top:3.5vh">
+        <img src="images/safety_glasses.png" class="main-img" style="margin-top:3vh">
       </div>
       <div class="one-third column">
-        <img src="images/yarnkelele.png" style="width:25vw">
+        <img src="images/yarnkelele.png" class="main-img">
       </div>
     </div>
     <div class="row" style="margin-top:5vh">
         <center><h1>Charlie Weiss</h1>
-          <h5>I make things!</h5></center>
+          <h5>I make things</h5></center>
     </div>
   </div>
 
