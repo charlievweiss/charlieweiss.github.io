@@ -3,8 +3,29 @@
 <head>
   <!-- image overlay-->
   <style>
-  .overlay{
-    position:relative;
+  .one-third.column {
+    position: relative;
+  }
+
+  .page-image {
+    width: 100%;
+  }
+
+  .overlay {
+    position: absolute;
+    top: 50%;
+  }
+
+  .overlay .overlay-streak {
+    width: 100%;
+  }
+
+  .overlay .overlay-text {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    top: 20%;
+    font-size: 2vw;
   }
   </style>
   <!-- Basic Page Needs
@@ -51,17 +72,25 @@
   <div class="container">
     <div class="row" style="margin-top:20vh">
       <div class="one-third column">
-        <img src="images/charlie_crayon.png" style="width:100%">
-        <div>
-          <img src="images/yellow_streak.png" style="width:100%">
-          <h6>about me</h6>
+        <img class="link-image" src="images/charlie_crayon.png" style="width:100%">
+        <div class="overlay">
+          <img class="overlay-streak" src="images/yellow_streak.png">
+          <h6 class="overlay-text">about me</h6>
         </div>
       </div>
       <div class="one-third column">
         <img src="images/safety_glasses.png" style="margin-top:3vh; width:100%">
+        <div class="overlay">
+          <img class="overlay-streak" src="images/orange_streak.png">
+          <h6 class="overlay-text">engineering+design</h6>
+        </div>
       </div>
       <div class="one-third column">
         <img src="images/yarnkelele.png" style="width:100%">
+        <div class="overlay">
+          <img class="overlay-streak" src="images/pink_streak.png">
+          <h6 class="overlay-text">art?</h6>
+        </div>
       </div>
     </div>
     <div class="row" style="margin-top:5vh">
