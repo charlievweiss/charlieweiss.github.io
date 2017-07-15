@@ -1,147 +1,98 @@
-<!DOCTYPE HTML>
-<!--
-	Phantom by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>Charlie Weiss</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
-		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
-	</head>
-	<body>
-		<!-- Wrapper -->
-			<div id="wrapper">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- image overlay-->
+  <style>
+    .main-img{/*since the three images are the same*/
+      width:22%;
+      position:relative;
+      top:0;
+      left:0;
+      z-index:1;
+    }
+    .div-hover{/*div for hovering*/
+      opacity:1;
+      position:relative;
+    }
+    .div-hover.text{/*hover text*/
+      text-align:center;
+      width:22%;
+      margin-top:2vh;
+      position:absolute;
+      z-index:3;
+      font-size:2vh;
+    }
+    .div-hover.image{/*hover image*/
+      position:absolute;
+      width:22%;
+      z-index:2;
+    }
+    .div-hover:hover{/*the aforementioned hovering*/
+      opacity:1;
+    }
+    
 
-				<!-- Header -->
-					<header id="header">
-						<div class="inner">
+  </style>
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Charlie Weiss</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-							<!-- Logo -->
-								<a href="index.html" class="logo">
-									<span class="symbol"><img src="images/icon.jpg" alt="***" /></span><span class="title">Charlie Weiss</span>
-								</a>
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-							<!-- Nav -->
-								<nav>
-									<ul>
-										<li><a href="#menu">Menu</a></li>
-									</ul>
-								</nav>
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet" type="text/css">
 
-						</div>
-					</header>
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
 
-				<!-- Menu -->
-					<nav id="menu">
-						<h2>Menu</h2>
-						<ul>
-							<li><a href="index.html">Home</a></li>
-							<li><a href="engineering+design.html">Engineering+Design Work</a></li>
-							<li><a href="personalprojects.html">Personal Projects</a></li>
-							<li><a href="yarncraft.html">Yarncraft</a></li>
-							<li><a href="elements.html">Elements</a></li>
-						</ul>
-					</nav>
+  <!-- Icon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/charlie_crayon.png">
+  <!--<link rel="icon" type="image/png" href="images/orange_background.png">
+  <link rel="icon" type="image/png" href="images/orange_streak.png">
+  <link rel="icon" type="image/png" href="images/pink_background.png">
+  <link rel="icon" type="image/png" href="images/pink_streak.png">
+  <link rel="icon" type="image/png" href="images/safety_glasses.png">
+  <link rel="icon" type="image/png" href="images/yarnkelele.png">
+  <link rel="icon" type="image/png" href="images/yellow_background.png">
+  <link rel="icon" type="image/png" href="images/yellow_streak.png">-->
 
-				<!-- Main -->
-					<div id="main">
-						<div class="inner">
-							<header>
-								<center><h1>Welcome!</h1></center>
-							</header>
-							<p><center><img src="images/charlie_crayon.jpg" alt="" style="width: 30%; height: 30%"/></center></p>
-							<p>I'm Charlie Weiss, a sophomore at Olin College of Engineering. This is where I collect my work, whether it's from projects for my design major or my personal things, like crochet. Go ahead and poke around, and let me know what you think.</p>
-							<section class="tiles">
-								<article class="style6">
-									<span class="image">
-										<img src="images/pic07.jpg" alt="" />
-									</span>
-									<a href="engineering+design.html">
-										<h2>Engineering+Design Work</h2>
-										<div class="content">
-											<p>from Olin College of Engineering</p>
-										</div>
-									</a>
-								</article>
-								<article class="style2">
-									<span class="image">
-										<img src="images/pic02.jpg" alt="" />
-									</span>
-									<a href="personalprojects.html">
-										<h2>Personal Projects</h2>
-										<div class="content">
-											<p>Art and Writing?</p>
-										</div>
-									</a>
-								</article>
-								<article class="style3">
-									<span class="image">
-										<img src="images/pic03.jpg" alt="" />
-									</span>
-									<a href="yarncraft.html">
-										<h2>Yarncraft</h2>
-										<div class="content">
-											<p>My <strike>coping strategy</strike> hobby</p>
-										</div>
-									</a>
-								</article>
-							</section>
-						</div>
-					</div>
+</head>
+<body>
 
-				<!-- Footer -->
-					<footer id="footer">
-						<div class="inner">
-							<section>
-								<h2>Get in touch</h2>
-								<form method="post" action="#">
-									<div class="field half first">
-										<input type="text" name="name" id="name" placeholder="Name" />
-									</div>
-									<div class="field half">
-										<input type="email" name="email" id="email" placeholder="Email" />
-									</div>
-									<div class="field">
-										<textarea name="message" id="message" placeholder="Message"></textarea>
-									</div>
-									<ul class="actions">
-										<li><input type="submit" value="Send" class="special" /></li>
-									</ul>
-								</form>
-							</section>
-							<section>
-								<h2>Follow</h2>
-								<ul class="icons">
-									<li><a href="#" class="icon style2 fa-twitter"><span class="label">Twitter</span></a></li>
-									<li><a href="#" class="icon style2 fa-facebook"><span class="label">Facebook</span></a></li>
-									<li><a href="#" class="icon style2 fa-instagram"><span class="label">Instagram</span></a></li>
-									<li><a href="#" class="icon style2 fa-dribbble"><span class="label">Dribbble</span></a></li>
-									<li><a href="#" class="icon style2 fa-github"><span class="label">GitHub</span></a></li>
-									<li><a href="#" class="icon style2 fa-500px"><span class="label">500px</span></a></li>
-									<li><a href="#" class="icon style2 fa-phone"><span class="label">Phone</span></a></li>
-									<li><a href="#" class="icon style2 fa-envelope-o"><span class="label">Email</span></a></li>
-								</ul>
-							</section>
-							<ul class="copyright">
-								<li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-							</ul>
-						</div>
-					</footer>
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+    <div class="row" style="margin-top:20vh">
+      <div class="one-third column">
+        <img src="images/charlie_crayon.png" class="main-img">
+        <div class="div-hover">
+          <img src="images/yellow_streak.png" class="div-hover image">
+          <h6 class="div-hover text">about me</h6>
+        </div>
+      </div>
+      <div class="one-third column">
+        <img src="images/safety_glasses.png" class="main-img" style="margin-top:3vh">
+      </div>
+      <div class="one-third column">
+        <img src="images/yarnkelele.png" class="main-img">
+      </div>
+    </div>
+    <div class="row" style="margin-top:5vh">
+        <center><h1>Charlie Weiss</h1>
+          <h5>I make things</h5></center>
+    </div>
+  </div>
 
-			</div>
-
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/skel.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-			<script src="assets/js/main.js"></script>
-
-	</body>
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
 </html>
