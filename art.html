@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- image overlay-->
+  <style>
+  body{
+    background:url(images/pink_background.png);
+    background-size: 100vw 100vh;
+  }
+  p{
+    text-align: left;
+  }
+  a{
+    color:#cc5500;
+  }
+  .row{
+    padding-top: 5vh;
+  }
+  .image{
+    width:33%;
+    border:5px solid white;
+    float:left;
+    margin-right:10px;
+  }
+  </style>
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Charlie Weiss: Art</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Reenie+Beanie" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+
+  <!-- Icon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/charlie_crayon.png">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+  $(document).ready(function(){
+    $('.page-link').hover(function() {
+      $(this).find('.overlay').addClass('overlay-shown');
+    }, function() {
+      $(this).find('.overlay').removeClass('overlay-shown');
+    });
+  });
+  </script>
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+    <div class="row">
+      <h1 style="text-align:center">art</h1>
+    </div>
+    <div class="row">
+        <h6>This will be my art</h6>
+    </div>
+  </div>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>
