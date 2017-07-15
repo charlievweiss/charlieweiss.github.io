@@ -3,7 +3,7 @@
 <head>
   <!-- image overlay-->
   <style>
-  .one-third.column {
+  .page-link {
     position: relative;
   }
 
@@ -14,6 +14,12 @@
   .overlay {
     position: absolute;
     top: 50%;
+    display: none;
+    cursor: pointer;
+  }
+
+  .overlay-shown {
+    display: block;
   }
 
   .overlay .overlay-streak {
@@ -60,8 +66,13 @@
   <link rel="icon" type="image/png" href="images/yellow_background.png">
   <link rel="icon" type="image/png" href="images/yellow_streak.png">-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script>$(document).on(function(){
-
+  <script>
+  $(document).ready(function(){
+    $('.page-link').hover(function() {
+      $(this).find('.overlay').addClass('overlay-shown');
+    }, function() {
+      $(this).find('.overlay').removeClass('overlay-shown');
+    });
   });
   </script>
 </head>
@@ -71,21 +82,21 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div class="container">
     <div class="row" style="margin-top:20vh">
-      <div class="one-third column">
+      <div class="one-third column page-link">
         <img class="link-image" src="images/charlie_crayon.png" style="width:100%">
         <div class="overlay">
           <img class="overlay-streak" src="images/yellow_streak.png">
           <h6 class="overlay-text">about me</h6>
         </div>
       </div>
-      <div class="one-third column">
+      <div class="one-third column page-link">
         <img src="images/safety_glasses.png" style="margin-top:3vh; width:100%">
         <div class="overlay">
           <img class="overlay-streak" src="images/orange_streak.png">
           <h6 class="overlay-text">engineering+design</h6>
         </div>
       </div>
-      <div class="one-third column">
+      <div class="one-third column page-link">
         <img src="images/yarnkelele.png" style="width:100%">
         <div class="overlay">
           <img class="overlay-streak" src="images/pink_streak.png">
