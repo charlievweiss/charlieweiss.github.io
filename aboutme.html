@@ -3,41 +3,19 @@
 <head>
   <!-- image overlay-->
   <style>
-  .page-link {
-    position: relative;
+  body{
+    background:url(images/yellow_background.png);
+    background-size: 100vw 100vh;
   }
-
-  .page-image {
-    width: 100%;
-  }
-
-  .overlay {
-    position: absolute;
-    top: 50%;
-    display: none;
-    cursor: pointer;
-  }
-
-  .overlay-shown {
-    display: block;
-  }
-
-  .overlay .overlay-streak {
-    width: 100%;
-  }
-
-  .overlay .overlay-text {
-    position: absolute;
-    text-align: center;
-    width: 100%;
-    top: 20%;
-    font-size: 2vmax;
+  .row{
+    text-align:center;
+    padding-top: 5vh;
   }
   </style>
   <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
-  <title>Charlie Weiss</title>
+  <title>Charlie Weiss: About Me</title>
   <meta name="description" content="">
   <meta name="author" content="">
 
@@ -57,14 +35,6 @@
   <!-- Icon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="icon" type="image/png" href="images/charlie_crayon.png">
-  <!--<link rel="icon" type="image/png" href="images/orange_background.png">
-  <link rel="icon" type="image/png" href="images/orange_streak.png">
-  <link rel="icon" type="image/png" href="images/pink_background.png">
-  <link rel="icon" type="image/png" href="images/pink_streak.png">
-  <link rel="icon" type="image/png" href="images/safety_glasses.png">
-  <link rel="icon" type="image/png" href="images/yarnkelele.png">
-  <link rel="icon" type="image/png" href="images/yellow_background.png">
-  <link rel="icon" type="image/png" href="images/yellow_streak.png">-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script>
   $(document).ready(function(){
@@ -81,32 +51,8 @@
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div class="container">
-    <div class="row" style="margin-top:20vh">
-      <div class="one-third column page-link">
-        <img class="link-image" src="images/charlie_crayon.png" style="width:100%">
-        <div class="overlay">
-          <a href="aboutme.html"><img class="overlay-streak" src="images/yellow_streak.png">
-          <h6 class="overlay-text">about me</h6></a>
-        </div>
-      </div>
-      <div class="one-third column page-link">
-        <img src="images/safety_glasses.png" style="margin-top:3vh; width:100%">
-        <div class="overlay">
-          <img class="overlay-streak" src="images/orange_streak.png">
-          <h6 class="overlay-text">engineering+design</h6>
-        </div>
-      </div>
-      <div class="one-third column page-link">
-        <img src="images/yarnkelele.png" style="width:100%">
-        <div class="overlay">
-          <img class="overlay-streak" src="images/pink_streak.png">
-          <h6 class="overlay-text">art?</h6>
-        </div>
-      </div>
-    </div>
-    <div class="row" style="margin-top:5vh">
-        <center><h1>Charlie Weiss</h1>
-          <h5>I make things</h5></center>
+    <div class="row">
+      <h1>about me</h1>
     </div>
   </div>
 
