@@ -3,35 +3,9 @@
 <head>
   <!-- image overlay-->
   <style>
-    .main-img{/*since the three images are the same*/
-      width:100%;
-      position:relative;
-      top:0;
-      left:0;
-      z-index:1;
-    }
-    .div-hover{/*div for hovering*/
-      opacity:1;
-      position:relative;
-    }
-    .div-hover.text{/*hover text*/
-      text-align:center;
-      width:100%;
-      margin-top:2vh;
-      position:absolute;
-      z-index:3;
-      font-size:2vh;
-    }
-    .div-hover.image{/*hover image*/
-      position:absolute;
-      width:100%;
-      z-index:2;
-    }
-    .div-hover:hover{/*the aforementioned hovering*/
-      opacity:1;
-    }
-    
-
+  .overlay{
+    position:relative;
+  }
   </style>
   <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -64,7 +38,11 @@
   <link rel="icon" type="image/png" href="images/yarnkelele.png">
   <link rel="icon" type="image/png" href="images/yellow_background.png">
   <link rel="icon" type="image/png" href="images/yellow_streak.png">-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>$(document).on(function(){
 
+  });
+  </script>
 </head>
 <body>
 
@@ -73,17 +51,17 @@
   <div class="container">
     <div class="row" style="margin-top:20vh">
       <div class="one-third column">
-        <img src="images/charlie_crayon.png" class="main-img">
-        <div class="div-hover">
-          <img src="images/yellow_streak.png" class="div-hover image">
-          <h6 class="div-hover text">about me</h6>
+        <img src="images/charlie_crayon.png" style="width:100%">
+        <div>
+          <img src="images/yellow_streak.png" style="width:100%">
+          <h6>about me</h6>
         </div>
       </div>
       <div class="one-third column">
-        <img src="images/safety_glasses.png" class="main-img" style="margin-top:3vh">
+        <img src="images/safety_glasses.png" style="margin-top:3vh; width:100%">
       </div>
       <div class="one-third column">
-        <img src="images/yarnkelele.png" class="main-img">
+        <img src="images/yarnkelele.png" style="width:100%">
       </div>
     </div>
     <div class="row" style="margin-top:5vh">
