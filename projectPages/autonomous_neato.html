@@ -1,0 +1,187 @@
+<!DOCTYPE HTML>
+<!--
+	Phantom by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Autonomous Neato</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="../assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+	</head>
+	<body>
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<div class="inner">
+
+							<!-- Logo -->
+								<a href="../index.html" class="logo">
+									<span class="title">Charlie Weiss</span>
+								</a>
+
+							<!-- Nav
+								<nav>
+									<ul>
+										<li><a href="#menu">Menu</a></li>
+									</ul>
+								</nav>-->
+
+						</div>
+					</header>
+
+				<!-- Menu 
+					<nav id="menu">
+						<h2>Menu</h2>
+						<ul>
+							<li><a href="../index.html">Home</a></li>
+							<li><a href="../engineering+design.html">Engineering+Design Work</a></li>
+							<li><a href="../personalprojects.html">Personal Projects</a></li>
+							<li><a href="../yarncraft.html">Yarncraft</a></li>
+							<li><a href="../elements.html">Elements</a></li>
+						</ul>
+					</nav>-->
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+							<h1>Classic Robotic Behavior on a Neato</h1>
+							<p><center><img src="../images/neato.png" alt="" style="width: 40%; height: 40%"/></center></p>
+							<h2>Link to Github</h2>
+                            <p><a href=https://github.com/charlievweiss/comprobo_warmup_project>Please click here.</a></p>
+                            <p></p>
+                            <h2>High-level Structures</h2>
+                            <p>There are various challenges in this project. Beyond the initial hurdles of understanding ROS nodes and topics, the physical limits of your robot, and general documentation on different "messages," there is the additional challenge of creating a system that is beautifully designed and coded. Given that this was my first time working with ROS, with some significant time constraints, I elected to get a quick-and-dirty first pass to my goals, and hope to expand from there in the future.
+
+                            Let's go through each behavior individually:</p>
+                                <h4>Teleoperation</h4>
+                                    <p>This one was fairly straightforward: Given code that handles keyboard input, I simply had to set specific keys for forward and backward linear velocities, and left and right angular velocities (with alternate keys to set these back to zero). These were continuously updated and passed into a Twist message, which was then published to the 'cmd_vel' topic for the Neato to interpret into action.</p>
+                                    <p></p>
+                                <h4>Driving in a square</h4>
+                                    <p>I elected for a timing-based approach for this, rather than an odometry-based one. With timing the idea is straightforward:</p>
+                                    <ul>
+                                        <li>determine your desired linear and angular velocities (mine were 0.3 m/s and 0.3 rad/s)</li>
+                                        <li>calculate the time required to travel your target distance (to travel 1 meter, I needed 3.33 seconds)</li>
+                                        <li>calculate the time required to turn pi/2 rad (pi/.6 in my case)</li>
+                                        <li>keep track of time, and have the Neato travel forward, stop, and turn for the correct amount of time.</li>
+                                        <li>do this 4 times, and you've driven a square!</li>
+                                    </ul>
+                                    <p></p>
+                                <h4>Obstacle Avoidance</h4>
+                                    <p>I implemented a simple concept for obstacle avoidance. First, check for a reading of an object in front of the Neato (in a span of 10 degrees across the front axis of the robot). If that object is less than 1.25 meters away, change the linear velocity to 0 m/s and the angular velocity to 1 rad/s. The Neato will turn until it no longer detects an object in front of it, and continue moving forward at that point.</p>
+                                    <p></p>
+                                <h4>Wall Following</h4>
+                                    <p>This one was a little trickier. The basic way I thought about this was to imagine lines pointing out from the Neato every 45 degrees around its Z axis (with straight ahead being 0 degrees), where the lines end at the first obstacle they encounter. When the Neato is parallel to a wall on its right side, the lines at 315 (right-front) and 225 (right-back) degrees will be equal. Similarly, when the Neato is parallel to a wall on its left side, the lines at 45 (left-front) and 135 (left-back) will be equal. So the goal is to achieve that state:</p>
+                                    <ul>
+                                        <li>First, find the distances at each of those points (45, 135, 225, and 315 degrees)</li>
+                                            <ul>
+                                            <li>To account for sensor error, I took the distances in a range around those target points, and took the maximum distance of those. That counters instances of non-values.</li>
+                                            </ul>
+                                        <li>Compare the distances on the right-front and right-back positions.</li>
+                                            <ul>
+                                            <li>If the right-front distance is longer, the robot needs to turn right to become parallel to the wall. If the right-back distance is longer, it needs to turn left.</li>
+                                            <li>When the distances are equal (within reasonable tolerance), continue forward.</li>
+                                            </ul>
+                                        <li>Do the same for the left-front and left-back positions.</li>
+                                    </ul>
+                                    <p>If all goes well, the Neato should align itself along the wall, once it has encountered one. It is also good to have detections at the front and back to avoid head-on collisions, and at the sides to maintain an even distance from the wall.</p>
+                                    <p></p>
+							<h2>Code Structure</h2>
+                            <p>I coded this in python with an object-oriented framework, using one Class object per behavior/node. An individual class would look something like this:</p>
+                            <ul>
+                                <li>class Behavior(Object)
+                                    <ul>
+                                        <li>Initialize variables</li>
+                                            <ul>
+                                                <li>This is where I initialize the behavior's node, such as 'wall_following'</li>
+                                                <li>This is also where I define the topics to publish or subscribe to, such as '/scan' or '/cmd_vel'</li>
+                                                <li>It can be a very long list with different message parameters</li>
+                                            </ul>
+                                        <li>Various helper functions</li>
+                                            <ul>
+                                                <li>For example, ObstacleAvoidance required these functions:</li>
+                                                <ul>
+                                                    <li>process_scan(), to get the data from the lidar scans</li>
+                                                    <li>find_max_distance(), to filter out erroneous readings
+                                                        </li>
+                                                    <li>check_obstacle(), to check if there is an object in front of the robot</li>
+                                                    <li>make_horizontal(), to compare distances and set velocities accordingly</li>
+                                                </ul>
+                                            </ul>
+                                        <li>Run() function</li>
+                                            <ul>
+                                                <li>This calls the helper functions and continously publishes velocity updates in a Twist message to '/cmd_vel'</li>
+                                            </ul>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <h2>Localization with Particle Filter</h2>
+                                    <p></p>
+                                    <p></p>
+                            <p></p>
+							<h2>Tools Used</h2>
+							<ul>
+								<li>ROS</li>
+                                <li>Python</li>
+                                <li>Neato</li>
+							</ul>
+						</div>
+					</div>
+
+				<!-- Footer 
+					<footer id="footer">
+						<div class="inner">
+							<section>
+								<h2>Get in touch</h2>
+								<form method="post" action="#">
+									<div class="field half first">
+										<input type="text" name="name" id="name" placeholder="Name" />
+									</div>
+									<div class="field half">
+										<input type="email" name="email" id="email" placeholder="Email" />
+									</div>
+									<div class="field">
+										<textarea name="message" id="message" placeholder="Message"></textarea>
+									</div>
+									<ul class="actions">
+										<li><input type="submit" value="Send" class="special" /></li>
+									</ul>
+								</form>
+							</section>
+							<section>
+								<h2>Follow</h2>
+								<ul class="icons">
+									<li><a href="#" class="icon style2 fa-twitter"><span class="label">Twitter</span></a></li>
+									<li><a href="#" class="icon style2 fa-facebook"><span class="label">Facebook</span></a></li>
+									<li><a href="#" class="icon style2 fa-instagram"><span class="label">Instagram</span></a></li>
+									<li><a href="#" class="icon style2 fa-dribbble"><span class="label">Dribbble</span></a></li>
+									<li><a href="#" class="icon style2 fa-github"><span class="label">GitHub</span></a></li>
+									<li><a href="#" class="icon style2 fa-500px"><span class="label">500px</span></a></li>
+									<li><a href="#" class="icon style2 fa-phone"><span class="label">Phone</span></a></li>
+									<li><a href="#" class="icon style2 fa-envelope-o"><span class="label">Email</span></a></li>
+								</ul>
+							</section>
+							<ul class="copyright">
+								<li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>-->
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="../assets/js/jquery.min.js"></script>
+			<script src="../assets/js/skel.min.js"></script>
+			<script src="../assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="../assets/js/main.js"></script>
+
+	</body>
+</html>
