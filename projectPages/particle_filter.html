@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<!--
+	Phantom by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Particle Filter</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="../assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+	</head>
+	<body>
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<div class="inner">
+
+							<!-- Logo -->
+								<a href="../index.html" class="logo">
+									<span class="title">Charlie Weiss</span>
+								</a>
+
+							<!-- Nav
+								<nav>
+									<ul>
+										<li><a href="#menu">Menu</a></li>
+									</ul>
+								</nav>-->
+
+						</div>
+					</header>
+
+				<!-- Menu 
+					<nav id="menu">
+						<h2>Menu</h2>
+						<ul>
+							<li><a href="../index.html">Home</a></li>
+							<li><a href="../engineering+design.html">Engineering+Design Work</a></li>
+							<li><a href="../personalprojects.html">Personal Projects</a></li>
+							<li><a href="../yarncraft.html">Yarncraft</a></li>
+							<li><a href="../elements.html">Elements</a></li>
+						</ul>
+					</nav>-->
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+							<h1>Localization with Particle Filter</h1>
+							<p>in collaboration with K. Soltan</p>
+							<h2>Link to Github</h2>
+                            <p>Below is the written overview of this project, where K. Soltan and I created a particle filter to localize a Neato in a room, using ROS and python. You can see the documentation again in the README in our github repository, as well as all the code. If you'd like to see it, <a href=https://github.com/ksoltan/robot_localization>please click here.</a></p>
+                            <p></p>
+							<h2>Overview</h2>
+                            <p>As part of the second mini project for Introduction to Computational Robotics, we designed an architecture for a particle filter implementation. Given a map, our challenge was to localize the robot on this map by using lidar and odometry readings and provide a pose estimation that would be used in a path planning algorithm or similar process. Our current implementation is not quite functioning, but all of the separate pieces of the particle filter are in place and require further testing to identify where the algorithm is behaving incorrectly.</p>
+                            <p></p>
+                            <h2>Code Architecture</h2>
+                            <p>Our approach to the particle filter consisted of one main ParticleFilter node which contained a MapModel, MotionModel, and SensorModel, and handled all subscription and publicationt to topics, as well as passing around a list of particle objects (ParticleDistribution). This architecture is depicted in the diagram below:</p>
+                            <p><center><img src="../images/pf_diagram.png" alt="" style="width: 75%"/></center></p>
+                            <p>The MotionModel class handles the changing odometry, tracking when the robot has moved far enough to merit updating the filter, and propagating particles to reflect this change.</p>
+                            <p>The SensorModel is responsible for calculating the likelihood that a scan came from a given particle.</p>
+                            <p>The MapModel provides an interface to the given OccupancyField class which stores information about the map and how far obstacles are from any given point on the map. The MapModel projects the lidar data into each particle's frame and is used by SensorModel for likelihood calculations.</p>
+                            <p>The ParticleDistribution class contains a list of particles as well as some helper functions that resample the particles based on their weights as well as normalizing the weights.</p>
+                            <p></p>
+							<h2>Filtering Steps</h2>
+                            <p>The particle filter updates when the robot has moved or turned a certain threshold distance. First, each particle in the distribution is propagated to reflect the change in position. Next, each particle's weight is updated based on how likely the lidar readings are from its pose. These weights are then normalized and the entire distribution is resampled based on the new probability distribution. A weighted average of all of the particle's poses generates an estimated robot pose which is then used to update the odom -> map transform.</p>
+                                <h3>Propagation (MotionModel)</h3>
+                                <p>Each particle needs to respond to the robot's movement which is represented by a change in the base_link -> odom transform. The odometry's position and orientation change is used to propagate each particle within a hypothetical base_link frame centered at each particle's pose, illustrated below.</p>
+                                <p><center><img src="../images/particle_propagation.gif" alt="" style="width: 60"/></center></p>
+                                <p>Above, the blue pose arrows represent the robot's odometry readings while the yellow poses are particles that mimic the change in odom. As the robot turns, each particle performs the same rotation in its own frame of reference. This propagation step can also include noise to account for the discrepancies in the odometry readings.</p>
+                                <h3>Likelihood Update (SensorModel)</h3>
+                                <p>Once particles have been propagated, the likelihood of each particle given new sensor readings is determined by finding the error between the obstacles sensed by the robot and the obstacles near each particle in the map. Below is an illustration of this process.</p>
+                                <p><center><img src="../images/error_validation_fixed.png" alt="" style="width: 60"/></center></p>
+                                <p>The robot (red dot) has four detected obstacles, each one meter away at 0, 90, 180, and 270 degrees. The green dots are projections that represent where those obstacles should be in relation to one particle (red). The pale blue circles have a radius corresponding to the error between the projected reading and the nearest obstacle at that point (found using the OccupancyField). The likelihood is inversely proportional to the distance: the error at 0 and 180 degrees gives the particle a low propbability, while the relatively low errors at 90 and 270 degrees give it a likelihood closer to 1.</p>
+                                <p>This process is repeated for a configurable number of angles of the lidar scan for each particle. The overall likelihood of each particle is calculated as the sum of the cubes of these errors. The cube is used to give low errors a higher weight in the total probability, rewarding more correct readings and not penalizing too steeply for high-error readings.</p>
+                                <h3>Resampling (ParticleDistribution)</h3>
+                                <p>With new particle likelihoods, the particle distribution is updated by resampling particles using the new probability distribution, illustrated below.</p>
+                                <p><center><img src="../images/resampling.gif" alt="" style="width: 60"/></center></p>
+                                <p>Each red pose represents a particle. The sphere marker's color and scale shows the weight of the particle: the more blue and larger it is, the higher weight the particle has. A random distribution of particles is first generated and then resampled. After each resampling, the particles are assigned random orientations to show that resampling happens with replacement. In general, you can see how the particles begin to cluster around certain areas.</p>
+                            <p></p>
+                            <h2>Design Choices and Challenges</h2>
+                                <h3>Unit Test Driven</h3>
+                                <p>Our goal was to develop and test each discrete step of the particle filter separately and to later integrate the pieces. Our approach was to devise a high-level modular architecture and fill in functionality based on unit tests. Additionally, we aimed to start with the most simplest implementation possible, introducing better probability functions and noise models, which would simply consistute a change in the class representing the impacted step.</p>
+                                <p>While a unit testing framework helped catch some poor implementations of mostly mathematical functions, such as resampling and propagation, it was difficult to test the random probability updates as well as the intuitive "what should happen" at each step. Towards the end of the project, we began to implement parts of the filter in semi-isolation and use rviz more heavily to visually validate each function. This helped us identify some fundamental problems, like strange angles due to radian/degree conversions and understand how the transforms between coordinate system should behave.</p>
+                                <h3>Odometry-based vs Time-based Movement</h3>
+                                <p>Our initial approach to the project was to teleoperate the robot and predict the robot's movement using a desired velocity and time-based model. We believed this would be the simplest method of implementation since we had worked extensively with cmd_vel before and we could work in a single frame (map). However, this actually introduced unneeded complexity into the system because we still needed to have an odom -> map transform. Additionally, the time-based model is not by any means a reliable prediction of how the robot has actually moved. While at first timing-based movement seemed straight-forward and approachable, it wasn't the right focus for the problem we were working on, and it was worth making the switch,.</p>
+                            <h2>Future Improvements</h2>
+                            <p>There are two main improvements we would like to have in this project, besides finding the current bug in our implementation and seeing the particles converge on an accurate predicted pose, which center around our process and approach.</p>
+                                <h3>MVP vs. Complex Code Architecture</h3>
+                                <p>Perhaps a better approach to the project would have been to start with implementing very rough filtering operations on one or two particles, seeing them through the entire algorithm, and then creating a better architecture that scales to more particles. The most challenging part of our approach was that although we had a fully laid-out architecture, we were not entirely sure of all of the components that would have to interact or what fundamental issues we might encounter across the full implementation.</p>
+                                <h3>Conceptual vs. Implementational Focus</h3>
+                                <p>Because we spent so much time debugging and thinking through a complex interaction of components, we were not able to focus on the more interesting mathematical aspects of particle filters. It would have been much more interesting to dive into the weeds of probability algorithms and their computational strengths and limitations, which we may have been able to do with a less ambitious MVP. Our current propagation model does not include noise, and the likelihood updates are based on an average of probabilities rather than at least a Gaussian distribution.</p>
+                            <h2>Interesting Lessons</h2>
+                            <p>We learned several interesting lessons throughout this project:</p>
+							<ul>
+                                <li>The most direct thing you understand may not be the best, ultimately.</li>
+                                    <ul>
+                                        <li>Like written above, we initally went for timing-based movement because it seemed more conceptually accessible. It actually have complicated the project quite a bit.</li>
+                                    </ul>
+                                <li>Ask for help early to avoid rabbit-hole timesinks</li>
+                                    <ul>
+                                        <li>We have run into this problem in multiple projects, where lack of context for the problems we are working on leads us to spend a lot of time hacking away at something with a simple solution. A conversation with a professor early on about even the most general aspects of the project can save a lot more time than a trouble-shooting conversation later, once you are already at the bottom of the well.</li>
+                                    </ul>
+                                <li>Unit testing is only as good as your overall understanding of the system.</li>
+                                    <ul>
+                                        <li>Because we did not have a detailed understanding of each of the necessary elements, we did not design very good unit tests. One way we could have had a better picture of what we should be testing for is running the built-in particle filter and writing tests based on its output. This approach would have also created a built-in benchmark for our algorith.</li>
+                                    </ul>
+                            </ul>
+                            <p>Additionally, here is a small list of some good, basic implementation lessons for future projects:</p>
+                            <ul>
+                                    <li>NEVER USE DEGREES. It is more intuitive, sure, but you will absolutely lose track of your conversions. Use default radians and only print using degrees for readability.</li>
+                                    <li>Check that you have the same workspace as your partner. More specifically, the same version of python.</li>
+                            </ul>
+						</div>
+					</div>
+
+				<!-- Footer 
+					<footer id="footer">
+						<div class="inner">
+							<section>
+								<h2>Get in touch</h2>
+								<form method="post" action="#">
+									<div class="field half first">
+										<input type="text" name="name" id="name" placeholder="Name" />
+									</div>
+									<div class="field half">
+										<input type="email" name="email" id="email" placeholder="Email" />
+									</div>
+									<div class="field">
+										<textarea name="message" id="message" placeholder="Message"></textarea>
+									</div>
+									<ul class="actions">
+										<li><input type="submit" value="Send" class="special" /></li>
+									</ul>
+								</form>
+							</section>
+							<section>
+								<h2>Follow</h2>
+								<ul class="icons">
+									<li><a href="#" class="icon style2 fa-twitter"><span class="label">Twitter</span></a></li>
+									<li><a href="#" class="icon style2 fa-facebook"><span class="label">Facebook</span></a></li>
+									<li><a href="#" class="icon style2 fa-instagram"><span class="label">Instagram</span></a></li>
+									<li><a href="#" class="icon style2 fa-dribbble"><span class="label">Dribbble</span></a></li>
+									<li><a href="#" class="icon style2 fa-github"><span class="label">GitHub</span></a></li>
+									<li><a href="#" class="icon style2 fa-500px"><span class="label">500px</span></a></li>
+									<li><a href="#" class="icon style2 fa-phone"><span class="label">Phone</span></a></li>
+									<li><a href="#" class="icon style2 fa-envelope-o"><span class="label">Email</span></a></li>
+								</ul>
+							</section>
+							<ul class="copyright">
+								<li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>-->
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="../assets/js/jquery.min.js"></script>
+			<script src="../assets/js/skel.min.js"></script>
+			<script src="../assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="../assets/js/main.js"></script>
+
+	</body>
+</html>

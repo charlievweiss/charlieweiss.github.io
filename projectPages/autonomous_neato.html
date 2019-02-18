@@ -55,7 +55,7 @@
 							<h1>Classic Robotic Behavior on a Neato</h1>
 							<p><center><img src="../images/neato.png" alt="" style="width: 40%; height: 40%"/></center></p>
 							<h2>Link to Github</h2>
-                            <p><a href=https://github.com/charlievweiss/comprobo_warmup_project>Please click here.</a></p>
+                            <p>Below is the written overview of this project, where I implemented teleoperation, driving in a square, obstacle avoidance, and wall following on a Neato robot using ROS and python. You can see the documentation again in the README in my github repository, as well as all the code. If you'd like to see it, <a href=https://github.com/charlievweiss/comprobo_warmup_project>please click here.</a></p>
                             <p></p>
                             <h2>High-level Structures</h2>
                             <p>There are various challenges in this project. Beyond the initial hurdles of understanding ROS nodes and topics, the physical limits of your robot, and general documentation on different "messages," there is the additional challenge of creating a system that is beautifully designed and coded. Given that this was my first time working with ROS, with some significant time constraints, I elected to get a quick-and-dirty first pass to my goals, and hope to expand from there in the future.
@@ -130,10 +130,21 @@
                                     I also had trouble integrating different behaviors together. It would have been very nice to make use of my object-oriented structure to call one behavior class from another, and have a catch-all program running to control the Neato. Instead, I ended up running teleoperations from one terminal, and my specific behavior from another, with the latter always overriding the former. This caused some interesting hassle when things went wrong-- especially because I was also unable to call my emergency stop for the same reason. I have yet to solve this.</p>
                                     <p></p>
                             <p></p>
-							<h2>Improvements</h2>
+                            <h2>Improvements</h2>
+                            <p>There are many improvements I would like to implement! The most appealing one is one I mentioned in the Challenges section-- integrating behavior into one executable would vastly streamline robot control and testing. Alongside that, here are some behavior-specific improvements I'd like to make:</p>
                                 <h4>Driving in a Square</h4>
+                                <p>It would be very cool to get this odometry based! I imagine it would allow for more specific adjustments while driving the square-- the current method has some variance, and can become offset rather quickly.</p>
                                 <h4>Obstacle Avoidance</h4>
+                                <p>A clear improvement here is to have the Neato avoiding obstacles while traveling toward a specific destination. This would also require odometry-based movement, with the robot constantly updating its surroundings to find the clearest pathway toward its destination.</p>
                                 <h4>Wall Following</h4>
+                                <p>My implementation has some clear limits. Currently, it only works if you have it headed toward a known wall in the first place-- the code identifies an obstacle, not an actual wall structure. A more interesting (and difficult) method could involve taking in the surroundings and identifing nearby walls or corners, and specifically targeting them in order to follow. This would prevent isntances of, say, driving off into infinity at a corner, and getting caught between two non-wall obstacles unsure where to turn next.</p>
+                            <p></p>
+                            <h2>Going Forward</h2>
+                            <p>Some key things I'd like to bring forward in future robotics work is a more solid structure of code integration. Setting up essentials like visualizing and emergency stops in a way that can be quickly integrated into any behavior function would be immensely valuable.
+                            </p>
+                            <p></p>
+                            <p>
+                            That said, another key takeaway with this project has been to recognize when I'm stuck in a rabbit hole, and call it quits earlier in order to pursue other work. I believe I would have been able to create some form of person following or the finite-state-controller had I not spent so much time struggling with visualization code.</p>
 						</div>
 					</div>
 
